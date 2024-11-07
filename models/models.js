@@ -14,8 +14,12 @@ const User = UserModel(sequelize, Sequelize);
 const ProjectModel = require("./project.js");
 const Project = ProjectModel(sequelize, Sequelize);
 
+const ProjectCategoryModel = require("./projectCategory.js");
+const ProjectCategory = ProjectCategoryModel(sequelize, Sequelize);
+
 module.exports = {
     User,
-    Project
+    Project,
+    ProjectCategory
 }
 
