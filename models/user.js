@@ -22,6 +22,20 @@ module.exports = (sequelize, DataTypes) => {
     passwordHash: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    forgetpassword: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    roleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 6, // Default role ID set to 6
+      references: {
+        model: 'roles', // Name of the table in the database
+        key: 'roleId'    // Primary key in the `roles` table
+      },
+      onDelete: 'CASCADE'
     }
   }, {
     tableName: 'users',
