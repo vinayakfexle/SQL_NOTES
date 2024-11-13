@@ -8,23 +8,31 @@ sequelize
     })
     .catch((error) => console.log(error, "error"));
 
-const UserModel = require("./user.js");
-const User = UserModel(sequelize, Sequelize);
+    const User = require("./user.js")(sequelize, Sequelize);
+    const Project = require("./project.js")(sequelize, Sequelize);
+    const ProjectCategory = require("./projectcategory.js")(sequelize, Sequelize);
+    const Role = require("./role.js")(sequelize, Sequelize);
+    const RolePermission = require("./rolepermissions.js")(sequelize, Sequelize);
+    const UserPermission = require("./userpermissions.js")(sequelize, Sequelize);
+    const ProjectCollaborator = require("./projectcollaborator.js")(sequelize, Sequelize);
+    const ProjectRevenue = require("./projectrevenue.js")(sequelize, Sequelize);
+    const Tag = require("./tag.js")(sequelize, Sequelize);
+    const ProjectTag = require("./projecttags.js")(sequelize, Sequelize);
+    const Milestone = require("./milestones.js")(sequelize, Sequelize);
+    const Task = require("./task.js")(sequelize, Sequelize);
 
-const ProjectModel = require("./project.js");
-const Project = ProjectModel(sequelize, Sequelize);
 
-const ProjectCategoryModel = require("./projectcategory.js");
-const ProjectCategory = ProjectCategoryModel(sequelize, Sequelize);
+    // Associations  
+    Project.hasMany(Task, {
+        foreignKey: "projectId",
+        onDelete: "cascade",
+    });
 
-const RoleModel = require("./role.js");
-const Role = RoleModel(sequelize, Sequelize);
+    Project.belongsTo(User, {
+        foreignKey: "userId",
+        onDelete: "cascade",
+    });
 
-const RolePermissionsModel = require("./rolepermissions.js");
-const RolePermission = RolePermissionsModel(sequelize, Sequelize);
-
-const UserPermissionsModel = require("./userpermissions.js");
-const UserPermission = UserPermissionsModel(sequelize, Sequelize);
 
 
 
@@ -34,6 +42,12 @@ module.exports = {
     ProjectCategory,
     Role,
     RolePermission,
-    UserPermission
+    UserPermission,
+    Milestone,
+    ProjectCollaborator,
+    ProjectRevenue,
+    Tag,
+    ProjectTag,
+    Task
 }
 

@@ -9,7 +9,7 @@ const secret = process.env.PASS_SEC;
 
 async function handleRegister(req, res){
     console.log('register user');try{
-        const {username, email, password} = req.body;
+        const {username, email, password, roleId} = req.body;
         if (!username || !email || !password){
             return res.status(400).json("bad request, Please provide valid data..!");
         }
@@ -24,6 +24,8 @@ async function handleRegister(req, res){
             'passwordHash': encryptedPwd, 
             'token': token
         }
+
+        if(roleId) user['roleId'] = roleId;
 
         try {
             const result = await User.create(user);

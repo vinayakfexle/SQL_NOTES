@@ -30,16 +30,12 @@ module.exports = (sequelize, DataTypes) => {
     roleId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 6, // Default role ID set to 6
-      references: {
-        model: 'roles', // Name of the table in the database
-        key: 'roleId'    // Primary key in the `roles` table
-      },
-      onDelete: 'CASCADE'
+      defaultValue: 6
     }
   }, {
     tableName: 'users',
     timestamps: true
   });
+
   return User;
-}
+};

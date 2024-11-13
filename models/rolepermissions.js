@@ -7,14 +7,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         role_id: {
             type: DataTypes.INTEGER,
-            allowNull: false,
-            references: {
-              model: 'roles', 
-              key: 'roleId'    
-            }
-        },
-        resource_type: {
-            type: DataTypes.STRING(50),
             allowNull: false
         },
         read_permission: {
@@ -39,9 +31,10 @@ module.exports = (sequelize, DataTypes) => {
         indexes: [
             {
                 unique: true,
-                fields: ['role_id', 'resource_type']
+                fields: ['role_id']
             }
         ]
-    })
+    });
+
     return RolePermission;
 }

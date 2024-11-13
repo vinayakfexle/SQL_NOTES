@@ -9,7 +9,7 @@ async function restrictToAuthenticatedUserOnly(req, res, next) {
     try{
         const reqMethodAndPermission = {
             "GET": "read_permission",
-            "POST": "creat_permission",
+            "POST": "create_permission",
             "PUT": "update_permission",
             "PATCH": "update_permission",
             "DELETE": "delete_permission"
@@ -36,10 +36,6 @@ async function restrictToAuthenticatedUserOnly(req, res, next) {
             }
         });
 
-        console.log("user:", JSON.stringify(user));
-
-
-
         if (!user){
             return res.status(401).json({ error: "You must be Logged In" });
         }
@@ -47,7 +43,7 @@ async function restrictToAuthenticatedUserOnly(req, res, next) {
 
 
         // authorization start's here
-        console.log(user.roleId);
+        console.log("user roleId:", user.roleId);
         const rolepermissions = await RolePermission.findOne({ 
             where: { 
                 role_id: user.roleId
@@ -72,7 +68,7 @@ async function restrictToAuthenticatedUserOnly(req, res, next) {
                     user_id: user.userId
                 } 
             });
-            console.log(userpermissions[permission]);
+            
 
             if (!userpermissions || !userpermissions[permission]){
                 console.log('user do not have required permissions!');

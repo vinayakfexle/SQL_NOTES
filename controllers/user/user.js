@@ -27,8 +27,13 @@ async function handleCreateUser(req, res){
  
         try {
             const result = await User.create(user);
-            let userId = result.dataValues.id;
-            let data = {'token': token, user_id: userId};
+            let data = {
+                'token': token, 
+                'userId:': result.userId,
+                'username': result.username,
+                'email': result.email,
+                'roleId:': result.roleId
+            };
             return res.status(200).json({"response": data});
         } 
         catch (err) {
@@ -46,10 +51,15 @@ async function handleCreateUser(req, res){
 async function handleDeleteUser(req, res){
     try{
         const userId = req.params.userId;
-        
-        const result = await User.destroy({where: { userId: userId } });
 
-        return res.status(200).json({"userId": userId, "deleted": result});
+        console.log(userId);
+        
+        const result = await User.destroy({where: { userId } });
+
+        return res.status(200).json({
+            "success": true,
+            "result": result
+        });
     }
     catch (err) {
         console.error('Error in controller/user/user.js:', err);
@@ -107,8 +117,14 @@ async function handleGetUser(req, res){
     try{
         const userId = req.params.userId;
         if(!userId) return res.status(404).json({ 'error':'user Id not found' });
+
         const user = await User.findByPk(userId);
-        return res.status(201).json({ user });
+
+        const updatedUser = await User.findOne(
+            { where: { userId: userId }
+        });
+
+        return res.status(201).json({ updatedUser });
     }
     catch(err){
         console.log("error in controllers/user/user.js", err);
