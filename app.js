@@ -4,21 +4,24 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = 3002;
 
-const restrictToAuthorisedUserOnly = require('./middleware/auth');
+const restrictToAuthenticatedUserOnly = require('./middleware/auth');
+const authRoute = require('./routers/user/auth');
 const userRoute = require('./routers/user/userRouter');
-const auth = require('./routers/user/auth');
-const user = require('./routers/user/userRouter');
-const project = require('./routers/project/project');
+const projectRoute = require('./routers/project/project');
+const userBasedAccessRoute = require('./routers/accesscontrol/userbasedaccess');
 
 // middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // routers
-app.use('/users/auth', auth);
-app.use('/users', restrictToAuthorisedUserOnly, user);
-app.use('/project', restrictToAuthorisedUserOnly, project);
+app.use('/users/auth', authRoute);
+app.use('/users', restrictToAuthenticatedUserOnly,  userRoute);
+app.use('/projects', restrictToAuthenticatedUserOnly, projectRoute);
+app.use('/userbasedaccess', restrictToAuthenticatedUserOnly, userBasedAccessRoute);
+
 
 app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}...`);
 });
+

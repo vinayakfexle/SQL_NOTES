@@ -7,16 +7,14 @@ const secret = process.env.PASS_SEC;
 
 async function handleCreateUser(req, res){
     try{
-        const {username, email, password} = req.body;
+        const {username, email, password, roleId} = req.body;
         if (!username || !email || !password){
             return res.status(400).json("bad request, Please provide valid data..!");
         }
 
         let encryptedPwd = await encryptPassword(password);
 
-        const token = jwt.sign({
-            "email": email
-        }, secret);
+        const token = jwt.sign({"email": email}, secret, { expiresIn: '1d' });
 
         let user = {
             'username':username, 
@@ -24,6 +22,8 @@ async function handleCreateUser(req, res){
             'passwordHash': encryptedPwd, 
             'token': token
         }
+
+        if(roleId) user['roleId'] = roleId;
  
         try {
             const result = await User.create(user);

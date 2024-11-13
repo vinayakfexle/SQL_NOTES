@@ -42,6 +42,8 @@ async function handleCreateProject(req, res){
 }
 
 async function handleUpdateProject(req, res){
+    const projectId = req.param.projectId;
+    console.log("projectId:", projectId);
     console.log("update project");
     return res.status(200).json({"success": true});
 }
