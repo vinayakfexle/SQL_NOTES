@@ -3,7 +3,8 @@ const roleController = require('../../controllers/role/role.js');
 
 const router = Router();
 
-router.route('/create').post(roleController.creatRole);
-router.route('/delete').delete(roleController.deleteRole);
+router.route('/create').post(roleController.handleCreateRole);
+router.route('/delete/:roleId?').delete(roleController.handleDeleteRole);
 
-module.exports = Router;
+
+module.exports = router;

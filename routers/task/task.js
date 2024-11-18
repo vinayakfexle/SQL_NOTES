@@ -3,10 +3,10 @@ const taskController = require('../../controllers/task/task.js');
 
 const router = Router();
 
-router.route('/get').get(taskController.handleGetTask);
 router.route('/create').post(taskController.handleCreateTask);
-router.route('/update').patch(taskController.handleUpdateTask);
-router.route('/delete').delete(taskController.handleDeleteTask);
+router.route('/get/:taskId?').get(taskController.handleGetTask);
+router.route('/update/:taskId?').patch(taskController.handleUpdateTask);
+router.route('/delete/:taskId?').delete(taskController.handleDeleteTask);
 
 
-return router;
+module.exports = router;

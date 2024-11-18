@@ -1,5 +1,31 @@
 const { Task, User, Project } = require('../../models/models.js');
 
+
+async function handleGetTask(req, res){
+    try{
+        const taskId = req.params.taskId;
+
+        if(!taskId) return res.status(404).json({ "error": "taskId not found!" });
+
+        const task = await Task.findByPk(taskId);
+        if(!task) return res.status(404).json({
+            "success": false, 
+            "message": `task not found with id ${taskId}`
+        });
+
+        return res.status(200).json({
+            "success": true,
+            task
+        });
+    }
+    catch(error){
+        console.log("error in controller/task/task.js:", error);
+        return res.status(500).json({"success": false, "error": error});
+    } 
+}
+
+
+
 async function handleCreateTask(req, res){
     try{
         const { 
@@ -29,7 +55,7 @@ async function handleCreateTask(req, res){
             "error": `user doesn't exist with id : ${assignedTo}`
         });
 
-        const newTask = new Task({
+        const newTask = {
             'projectId': projectId, 
             'taskName': taskName, 
             'description': description, 
@@ -38,16 +64,15 @@ async function handleCreateTask(req, res){
             'dueDate': dueDate, 
             'priority': priority, 
             'templateId': templateId 
-        });
+        };
 
-        const result = newTask.save();
+        const result = await Task.create(newTask);
 
         console.log(result);
 
         res.status(200).json({
             "success": true,
-            result,
-            newTask
+            "message": "Task Created Successfully"
         });
     }
     catch(error){
@@ -62,7 +87,8 @@ async function handleCreateTask(req, res){
 
 async function handleUpdateTask(req, res){
     try{
-        await Task.update(req.body, { where: { id: req.params.id } });
+        if (!req.params.taskId) res.status(404).json({ "error": "taskId not found!" });
+        await Task.update(req.body, { where: { taskId: req.params.taskId } });
         res.status(200).json({
             "success": true,
             "message": "Task Updated successfully"
@@ -75,39 +101,20 @@ async function handleUpdateTask(req, res){
 
 }
 
-async function handleGetTask(req, res){
-    try{
-        const taskId = req.params.taskId;
-
-        const task = Task.findByPk(taskId);
-        if(!task) res.status(404).json({
-            "success": false, 
-            "message": `task not found with id ${taskId}`
-        });
-
-        return res.status(200).json({
-            "success": true,
-            task
-        });
-    }
-    catch(error){
-        console.log("error in controller/task/task.js:", error);
-        res.status(500).json({"success": false, "error": error});
-    } 
-}
-
 
 async function handleDeleteTask(req, res){
     try{
         const taskId = req.params.taskId;
 
-        const task = Task.findByPk(taskId);
+        if (!taskId) res.status(404).json({ "error": "taskId not found!" });
+
+        const task = await Task.findOne({ where: { taskId } });
         if(!task) res.status(404).json({
             "success": false, 
             "message": `task not found with id ${taskId}`
         });
 
-        await Task.delete({ where: { taskId } });
+        await Task.destroy({ where: { taskId } });
 
         return res.status(200).json({
             "success": true,
