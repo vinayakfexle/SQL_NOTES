@@ -55,6 +55,7 @@ async function restrictToAuthenticatedUserOnly(req, res, next) {
             permission = reqMethodAndPermission[req.method];
             
             if (rolepermissions[permission]){
+                console.log("access found on user role");
                 req['userId'] = user.roleId;
                 next();
                 return;
