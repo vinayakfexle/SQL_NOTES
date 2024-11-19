@@ -16,6 +16,8 @@ const projectTagRoute = require('./routers/projecttag/projecttag.js');
 const projectCategoryRoute = require('./routers/projectcategory/projectcategory.js');
 const milestoneRouter = require('./routers/milestone/milestone.js');
 const projectCollaboratorRouter = require('./routers/projectcollaborator/projectcollaborator.js');
+const emailTemplatesRouter = require('./routers/emailtemplates/emailtemplates.js');
+const meetingsRouter = require('./routers/meetings/meetings.js');
 
 // middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -33,6 +35,8 @@ app.use('/projecttags' , restrictToAuthenticatedUserOnly, projectTagRoute);
 app.use('/projectcategories', restrictToAuthenticatedUserOnly, projectCategoryRoute);
 app.use('/milestones', restrictToAuthenticatedUserOnly, milestoneRouter);
 app.use('/projectcollaborators', restrictToAuthenticatedUserOnly, projectCollaboratorRouter);
+app.use('/emailtemplates', restrictToAuthenticatedUserOnly, emailTemplatesRouter);
+app.use('/meetings', restrictToAuthenticatedUserOnly, meetingsRouter);
 
 
 app.listen(PORT, () => {

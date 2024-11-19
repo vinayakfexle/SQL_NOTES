@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'ProjectCollaborator',
-        tableName: 'projectcollaborators;',
+        tableName: 'projectcollaborators',
         timestamps: false
     });
     return ProjectCollaborator;

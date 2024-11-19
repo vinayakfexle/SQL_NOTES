@@ -30,8 +30,19 @@ async function handleUpdateMilestone(req, res){
         const reqBody = req.body;
         const milestoneId = req.params.milestoneId;
         if(Object.keys(reqBody).length === 0){
-            return res.status(404).json({ "success": false,"error": "invalid payload data"});
+            return res.status(404).json({ 
+                "success": false, 
+                "error": "invalid payload data"
+            });
         }
+        const milestone = await Milestone.findOne({ where: { milestoneId } });
+        if(!milestone){
+            return res.status(404).json({ 
+                "success": false, 
+                "error": `milestone not found with Id: ${milestoneId}`
+            });
+        }
+
         await Milestone.update(reqBody, { where: { milestoneId } });
         return res.status(200).json({"success": true, "message":"milestone updated successfully"});
     }
