@@ -18,6 +18,8 @@ const milestoneRouter = require('./routers/milestone/milestone.js');
 const projectCollaboratorRouter = require('./routers/projectcollaborator/projectcollaborator.js');
 const emailTemplatesRouter = require('./routers/emailtemplates/emailtemplates.js');
 const meetingsRouter = require('./routers/meetings/meetings.js');
+const meetingAttendeeRouter = require('./routers/meetingAttendee/meetingAttendee.js');
+const notesRouter = require('./routers/notes/notes.js');
 
 // middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -37,6 +39,8 @@ app.use('/milestones', restrictToAuthenticatedUserOnly, milestoneRouter);
 app.use('/projectcollaborators', restrictToAuthenticatedUserOnly, projectCollaboratorRouter);
 app.use('/emailtemplates', restrictToAuthenticatedUserOnly, emailTemplatesRouter);
 app.use('/meetings', restrictToAuthenticatedUserOnly, meetingsRouter);
+app.use('/meetingattendees', restrictToAuthenticatedUserOnly, meetingAttendeeRouter);
+app.use('/notes', restrictToAuthenticatedUserOnly, notesRouter);
 
 
 app.listen(PORT, () => {
