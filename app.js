@@ -20,6 +20,9 @@ const emailTemplatesRouter = require('./routers/emailtemplates/emailtemplates.js
 const meetingsRouter = require('./routers/meetings/meetings.js');
 const meetingAttendeeRouter = require('./routers/meetingAttendee/meetingAttendee.js');
 const notesRouter = require('./routers/notes/notes.js');
+const reminderRouter = require('./routers/reminder/reminder.js');
+const fileattachmentRouter = require('./routers/fileattachment/fileattachment.js');
+const menuItemRouter = require('./routers/menuItem/menuItem.js');
 
 // middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,6 +44,9 @@ app.use('/emailtemplates', restrictToAuthenticatedUserOnly, emailTemplatesRouter
 app.use('/meetings', restrictToAuthenticatedUserOnly, meetingsRouter);
 app.use('/meetingattendees', restrictToAuthenticatedUserOnly, meetingAttendeeRouter);
 app.use('/notes', restrictToAuthenticatedUserOnly, notesRouter);
+app.use('/reminders', restrictToAuthenticatedUserOnly, reminderRouter);
+app.use('/fileattachments', restrictToAuthenticatedUserOnly, fileattachmentRouter);
+app.use('/menuitems', restrictToAuthenticatedUserOnly, menuItemRouter);
 
 
 app.listen(PORT, () => {

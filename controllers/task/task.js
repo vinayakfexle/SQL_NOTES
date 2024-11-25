@@ -1,31 +1,5 @@
 const { Task, User, Project } = require('../../models/models.js');
 
-
-async function handleGetTask(req, res){
-    try{
-        const taskId = req.params.taskId;
-
-        if(!taskId) return res.status(404).json({ "error": "taskId not found!" });
-
-        const task = await Task.findByPk(taskId);
-        if(!task) return res.status(404).json({
-            "success": false, 
-            "message": `task not found with id ${taskId}`
-        });
-
-        return res.status(200).json({
-            "success": true,
-            task
-        });
-    }
-    catch(error){
-        console.log("error in controller/task/task.js:", error);
-        return res.status(500).json({"success": false, "error": error});
-    } 
-}
-
-
-
 async function handleCreateTask(req, res){
     try{
         const { 
@@ -68,11 +42,9 @@ async function handleCreateTask(req, res){
 
         const result = await Task.create(newTask);
 
-        console.log(result);
-
         res.status(200).json({
             "success": true,
-            "message": "Task Created Successfully"
+            result
         });
     }
     catch(error){
@@ -82,6 +54,30 @@ async function handleCreateTask(req, res){
             "error": error
         });
     }
+}
+
+
+async function handleGetTask(req, res){
+    try{
+        const taskId = req.params.taskId;
+
+        if(!taskId) return res.status(404).json({ "error": "taskId not found!" });
+
+        const task = await Task.findByPk(taskId);
+        if(!task) return res.status(404).json({
+            "success": false, 
+            "message": `task not found with id ${taskId}`
+        });
+
+        return res.status(200).json({
+            "success": true,
+            task
+        });
+    }
+    catch(error){
+        console.log("error in controller/task/task.js:", error);
+        return res.status(500).json({"success": false, "error": error});
+    } 
 }
 
 
